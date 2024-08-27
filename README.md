@@ -1,16 +1,15 @@
-## Hi there 👋
+### 自我介绍
+我是来自广东工业大学计算机科学与技术专业的一名学生。
 
-<!--
-**Memset-Lee/Memset-Lee** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+在过去的大学两年中，除了日常的生活与学习，我花费了最多时间在 ACM 中。之所以花费这么多时间在 ACM 中，就是因为我对算法有着十分浓厚的兴趣。
 
-Here are some ideas to get you started:
+在两年中，我在 ACM 中打过许多比赛，无论是在 CCPC 区域赛获得的两个铜奖还是广东省赛的金奖，都是宝贵的经历。除此之外我还参加过许多比赛，如蓝桥杯，西安邀请赛等等。
+![image](https://img2024.cnblogs.com/blog/3509625/202408/3509625-20240827164814757-907972432.jpg)
+（CCPC区域赛深圳站）
+![image](https://img2024.cnblogs.com/blog/3509625/202408/3509625-20240827165029475-1767598218.jpg)
+（广东省赛）
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+除了对算法的喜爱，我最大的爱好就是乒乓球。我在高一的时候开始接触乒乓球，一直和高中同学打了三年，也在这三年中喜欢上了乒乓球。
+在大学也不例外，我不仅在体育课上选了乒乓球，还经常和同学一起去打乒乓球。可以说乒乓球给我带来了无数的乐趣。
+![image](https://img2024.cnblogs.com/blog/3509625/202408/3509625-20240827171413922-731526167.jpg)
+（陪了我好几年的球拍）
