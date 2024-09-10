@@ -27,7 +27,20 @@ def check_file_path():  # 判断路径是否正确
         if not os.path.exists(file_path):
             print(f"Path does not exist: {file_path}")
             flag = 1
-    return flag
+    if flag == 1:
+        sys.exit()
+
+
+def check_empty_file():  # 判断文件是否为空
+    flag = 0
+    if not original_text:
+        print("The original text file is empty.")
+        flag = 1
+    if not plagiarized_text:
+        print("The plagiarized text file is empty.")
+        flag = 1
+    if flag == 1:
+        sys.exit()
 
 
 parser = argparse.ArgumentParser()  # 获取命令行参数
@@ -36,11 +49,12 @@ parser.add_argument("plagiarized_file", type=str)  # 抄袭文件地址存在arg
 parser.add_argument("answer_file", type=str)  # 答案文件地址存在args.answer_file
 args = parser.parse_args()
 
-if check_file_path() == 1:  # 判断路径是否正确
-    sys.exit()
+check_file_path()  # 判断路径是否正确
 
 original_text = read_file(args.original_file)  # 读取原文文件内容到original_text
 plagiarized_text = read_file(args.plagiarized_file)  # 读取抄袭文件内容到plagiarized_text
+
+check_empty_file()  # 判断文件是否为空
 
 segment_original_text = segment_text(original_text)  # 将original_text分词保存到segment_original_text
 segment_plagiarized_text = segment_text(plagiarized_text)  # 将plagiarized_text分词保存到segment_plagiarized_text
