@@ -76,3 +76,6 @@ similarity = get_ans(segment_original_text, segment_plagiarized_text)  # 计算�
 
 print(f'{similarity:.2f}')  # 在cmd中打印相似度
 write_file(args.answer_file, similarity)  # 将相似度写入答案文件
+
+# cd C:\Users\26973\Desktop\Tools\Python Code\SEPersonalProject
+# python main.py "C:\Users\26973\Desktop\Tools\Python Code\SEPersonalProject\orig.txt" "C:\Users\26973\Desktop\Tools\Python Code\SEPersonalProject\orig_0.8_dis_15.txt" "C:\Users\26973\Desktop\Tools\Python Code\SEPersonalProject\ans.txt"
