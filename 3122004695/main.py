@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import jieba
 import argparse
@@ -26,7 +27,9 @@ def write_file(file_path):  # 写入文件内容
 
 def segment_text(text):  # 对文本进行分词
     seg_list = jieba.cut(text, cut_all=False)
-    return " ".join(seg_list)
+    text_with_spaces = " ".join(seg_list)  # 用空格分词
+    text_without_punctuation = re.sub(r'[^\w\s]', '', text_with_spaces)  # 去除标点符号
+    return text_without_punctuation
 
 
 def get_ans():  # 计算相似度
