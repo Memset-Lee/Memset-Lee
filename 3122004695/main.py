@@ -35,7 +35,7 @@ def segment_text(text):  # 对文本进行分词
 def get_ans():  # 计算相似度
     tfidf_matrix = TfidfVectorizer().fit_transform(
         [segment_original_text, segment_plagiarized_text])  # 将文本数据转换为TF-IDF特征矩阵保存到tfidf_matrix
-    return cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]  # 计算相似度
+    return cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0] * 100  # 计算相似度
 
 
 def check_file_path():  # 判断路径是否正确
