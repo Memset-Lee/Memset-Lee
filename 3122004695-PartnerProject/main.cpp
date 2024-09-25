@@ -10,21 +10,21 @@
 #define llf LLONG_MAX
 using namespace std;
 
-ll questionNum = 100, maxRange = 100;//ÌâÄ¿ÊıÁ¿£¬×ÔÈ»Êı´óĞ¡
-string exerciseFile, answerFile;//ÌâÄ¿ÎÄ¼ş£¬´ğ°¸ÎÄ¼ş
-vector<string>allSymbol = { "+","-","*","/" };//ÔËËã·û
-static mt19937_64 randomNumberGenerator(chrono::steady_clock::now().time_since_epoch().count());//Ëæ»úÊıÉú³ÉÆ÷
-uniform_int_distribution<ll>symbolNumRange(1, 3);//·ûºÅÊıÁ¿
-uniform_int_distribution<ll>symbolRange(0, 3);//ÔËËã·ûÖÖÀà
-uniform_int_distribution<ll>parentheses(0, 100);//À¨ºÅ
+ll questionNum = 100, maxRange = 100;//é¢˜ç›®æ•°é‡ï¼Œè‡ªç„¶æ•°å¤§å°
+string exerciseFile, answerFile;//é¢˜ç›®æ–‡ä»¶ï¼Œç­”æ¡ˆæ–‡ä»¶
+vector<string>allSymbol = { "+","-","*","/" };//è¿ç®—ç¬¦
+static mt19937_64 randomNumberGenerator(chrono::steady_clock::now().time_since_epoch().count());//éšæœºæ•°ç”Ÿæˆå™¨
+uniform_int_distribution<ll>symbolNumRange(1, 3);//ç¬¦å·æ•°é‡
+uniform_int_distribution<ll>symbolRange(0, 3);//è¿ç®—ç¬¦ç§ç±»
+uniform_int_distribution<ll>parentheses(0, 100);//æ‹¬å·
 
-ll gcd(ll a, ll b)
+ll gcd(ll a, ll b)//æ±‚æœ€å¤§å…¬å› æ•°
 {
 	return b == 0 ? a : gcd(b, a % b);
 }
-struct Number
+struct Number//è‡ªç„¶æ•°ç»“æ„ä½“
 {
-	ll numerator, denominator;//numerator£º·Ö×Ó£¬denominator£º·ÖÄ¸
+	ll numerator, denominator;//numeratorï¼šåˆ†å­ï¼Œdenominatorï¼šåˆ†æ¯
 	Number operator + (const Number& x) const
 	{
 		ll temp1 = numerator * x.denominator + x.numerator * denominator;
@@ -50,25 +50,7 @@ struct Number
 		return { temp1 / gcd(abs(temp1),abs(temp2)),temp2 / gcd(abs(temp1),abs(temp2)) };
 	}
 };
-string change(Number x)//»¯ÎªÕıÈ·ĞÎÊ½
-{
-	string ans = "";
-	if (x.numerator == 0)//0
-	{
-		ans += "0";
-	}
-	else if (x.numerator >= x.denominator)//´ø·ÖÊı
-	{
-		ans += to_string(x.numerator / x.denominator);
-		if (x.numerator % x.denominator != 0) ans += "'" + to_string(x.numerator % x.denominator) + "/" + to_string(x.denominator);
-	}
-	else//Õæ·ÖÊı
-	{
-		ans += to_string(x.numerator) + "/" + to_string(x.denominator);
-	}
-	return ans;
-}
-string addParentheses(string s)//Ìí¼ÓÀ¨ºÅ
+string addParentheses(string s)//éšæœºæ·»åŠ æ‹¬å·
 {
 	string temp = "";
 	ll i, tempidx, cnt1 = 0, cnt2 = 0, idx = -1, idx1 = -1, idx2 = -1;
@@ -77,7 +59,7 @@ string addParentheses(string s)//Ìí¼ÓÀ¨ºÅ
 		if (s[i] == '+' || s[i] == '-') cnt1++, idx = i;
 		else if (s[i] == '*' || (s[i] == '/' && s[i - 1] == ' ' && s[i + 1] == ' ')) cnt2++;
 	}
-	if (cnt1 != 0 && cnt2 != 0 && parentheses(randomNumberGenerator) % 10 == 0)
+	if (cnt1 != 0 && cnt2 != 0 && parentheses(randomNumberGenerator) % 5 == 0)
 	{
 		tempidx = idx - 2;
 		while (tempidx >= 0)
@@ -128,7 +110,7 @@ string addParentheses(string s)//Ìí¼ÓÀ¨ºÅ
 		return s;
 	}
 }
-Number getNum(string s, ll idx)//»ñÈ¡±í´ïÊ½ÖĞµÄÊı×Ö
+Number getNum(string s, ll idx)//è·å–è¡¨è¾¾å¼ä¸­çš„è‡ªç„¶æ•°
 {
 	ll num1 = 0, num2 = 0, num3 = 0, temp = 0;
 	while (s[idx] != ' ' && idx < (ll)s.size())
@@ -141,9 +123,29 @@ Number getNum(string s, ll idx)//»ñÈ¡±í´ïÊ½ÖĞµÄÊı×Ö
 	if (num1 == 0 && num2 == 0 && num3 == 0) num2 = temp, num3 = 1;
 	else num3 = temp;
 	num2 += num3 * num1;
+	ll g = gcd(num2, num3);
+	num2 /= g; num3 /= g;
 	return{ num2,num3 };
 }
-string getSimpleAns(string s)//¼ÆËã´ğ°¸
+string getString(Number x)//å°†è‡ªç„¶æ•°åŒ–ä¸ºæ­£ç¡®å½¢å¼
+{
+	string ans = "";
+	if (x.numerator == 0)//0
+	{
+		ans += "0";
+	}
+	else if (x.numerator >= x.denominator)//å¸¦åˆ†æ•°
+	{
+		ans += to_string(x.numerator / x.denominator);
+		if (x.numerator % x.denominator != 0) ans += "'" + to_string(x.numerator % x.denominator) + "/" + to_string(x.denominator);
+	}
+	else//çœŸåˆ†æ•°
+	{
+		ans += to_string(x.numerator) + "/" + to_string(x.denominator);
+	}
+	return ans;
+}
+string getSimpleAns(string s)//è®¡ç®—æ— æ‹¬å·å¼å­ç­”æ¡ˆ
 {
 	vector<Number>num;
 	vector<char>sym;
@@ -182,61 +184,155 @@ string getSimpleAns(string s)//¼ÆËã´ğ°¸
 		}
 	}
 	newnum.push_back(temp);
-	bool flag = 1;
 	Number numans = newnum[0];
 	for (ll i = 0; i < (ll)newsym.size(); i++)
 	{
 		if (newsym[i] == '+') numans = numans + newnum[i + 1];
 		else if (newsym[i] == '-') numans = numans - newnum[i + 1];
-		if (numans.numerator < 0 || numans.denominator < 0) flag = 0;
-
+		if (numans.numerator < 0 || numans.denominator < 0) return "F";
 	}
-	string ans = change(numans);
-	if (flag == 1) return ans + "T";
-	else return ans + "F";
+	return getString(numans);
 }
-void generateQuestion()//Éú³ÉÎÊÌâ
+bool checkParentheses(string s)//æŸ¥æ‰¾æ‹¬å·
 {
-	ofstream exercisesFile("Exercises.txt");
-	ofstream answerFile("Answers.txt");
-	if (!exercisesFile.is_open())
+	for (ll i = 0; i < (ll)s.size(); i++)
+	{
+		if (s[i] == '(' || s[i] == ')') return 1;
+	}
+	return 0;
+}
+string getAns(string s)//è®¡ç®—ç­”æ¡ˆ
+{
+	string ans = s;
+	while (checkParentheses(ans) == 1)
+	{
+		ll l = -1, r = -1;
+		for (ll i = 0; i < (ll)ans.size(); i++)
+		{
+			if (ans[i] == '(')
+			{
+				l = i;
+			}
+			else if (ans[i] == ')')
+			{
+				r = i;
+				break;
+			}
+		}
+		string sl = ans.substr(0, l);
+		string sr = ans.substr(r + 1, (ll)ans.size() - r - 1);
+		string sm = getSimpleAns(ans.substr(l + 1, r - l - 1));
+		if (sm == "F") return "F";
+		ans = sl + sm + sr;
+	}
+	return getSimpleAns(ans);
+}
+void generateQuestion()//ç”Ÿæˆé—®é¢˜
+{
+	ofstream exercises("Exercises.txt");
+	ofstream answer("Answers.txt");
+	if (!exercises.is_open())
 	{
 		cout << "Can not open the file: Exercises.txt" << endl;
 		exit(0);
 	}
-	if (!answerFile.is_open())
+	if (!answer.is_open())
 	{
 		cout << "Can not open the file: Answers.txt" << endl;
 		exit(0);
 	}
 	for (ll i = 0; i < questionNum; i++)
 	{
-		ll symbolNum = symbolNumRange(randomNumberGenerator);//·ûºÅÊıÁ¿
+		ll symbolNum = symbolNumRange(randomNumberGenerator);//ç¬¦å·æ•°é‡
 		string question = "";
 		for (ll j = 0; j <= symbolNum; j++)
 		{
-			ll denominator = uniform_int_distribution<ll>(1, 20)(randomNumberGenerator);//·ÖÄ¸
-			ll numerator = uniform_int_distribution<ll>(1, denominator * maxRange - 1)(randomNumberGenerator);//·Ö×Ó
-			string symbol = allSymbol[symbolRange(randomNumberGenerator)];//·ûºÅ
-			string temp = change({ numerator ,denominator });//»¯ÎªÕıÈ·ĞÎÊ½
-			question += temp;//¼ÓÉÏÊı×Ö
-			if (j != symbolNum) question += " " + symbol + " ";//¼ÓÉÏ·ûºÅ
+			ll denominator = uniform_int_distribution<ll>(1, 20)(randomNumberGenerator);//åˆ†æ¯
+			ll numerator = uniform_int_distribution<ll>(1, denominator * maxRange - 1)(randomNumberGenerator);//åˆ†å­
+			string symbol = allSymbol[symbolRange(randomNumberGenerator)];//ç¬¦å·
+			string temp = getString({ numerator ,denominator });//åŒ–ä¸ºæ­£ç¡®å½¢å¼
+			question += temp;//åŠ ä¸Šæ•°å­—
+			if (j != symbolNum) question += " " + symbol + " ";//åŠ ä¸Šç¬¦å·
 		}
-		//question = addParentheses(question);//Ìí¼ÓÀ¨ºÅ
-		string ans = getSimpleAns(question);
-		if (ans[ans.size() - 1] == 'T')
-		{
-			ans = ans.substr(0, ans.size() - 1);
-			exercisesFile << i + 1 << "." << question << endl;
-			answerFile << i + 1 << "." << ans << endl;
-		}
-		else
+		question = addParentheses(question);//æ·»åŠ æ‹¬å·
+		string ans = getAns(question);
+		if (ans == "F")
 		{
 			i--;
 		}
+		else
+		{
+			exercises << i + 1 << "." << question << endl;
+			answer << i + 1 << "." << ans << endl;
+		}
 	}
-	exercisesFile.close();
-	answerFile.close();
+	exercises.close();
+	answer.close();
+}
+string getTrue(string s)//å»é™¤æ ‡å·
+{
+	ll idx = -1;
+	for (ll i = 0; i < (ll)s.size(); i++)
+	{
+		if (s[i] == '.')
+		{
+			idx = i;
+			break;
+		}
+	}
+	return s.substr(idx + 1, (ll)s.size() - idx - 1);
+}
+void outputCheckAns(vector<ll>correct, vector<ll>wrong)//è¾“å‡ºåˆ¤æ–­å¯¹é”™å¹¶è¿›è¡Œæ•°é‡ç»Ÿè®¡çš„ç»“æœ
+{
+	ofstream grade("Grade.txt");
+	if (!grade.is_open())
+	{
+		cout << "Can not open the file: Grade.txt" << endl;
+		exit(0);
+	}
+	grade << "Correct: " << correct.size() << " (";
+	for (ll i = 0; i < (ll)correct.size(); i++)
+	{
+		grade << correct[i];
+		if (i != (ll)correct.size() - 1) grade << ", ";
+	}
+	grade << ")" << endl;
+	grade << "Wrong: " << wrong.size() << " (";
+	for (ll i = 0; i < (ll)wrong.size(); i++)
+	{
+		grade << wrong[i];
+		if (i != (ll)wrong.size() - 1) grade << ", ";
+	}
+	grade << ")" << endl;
+	grade.close();
+}
+void checkAns()//åˆ¤æ–­ç­”æ¡ˆå¯¹é”™å¹¶è¿›è¡Œæ•°é‡ç»Ÿè®¡
+{
+	ifstream exercises(exerciseFile);
+	ifstream answer(answerFile);
+	if (!exercises.is_open())
+	{
+		cout << "Can not open the file: " << exerciseFile << endl;
+		exit(0);
+	}
+	if (!answer.is_open())
+	{
+		cout << "Can not open the file: " << answerFile << endl;
+		exit(0);
+	}
+	vector<string>question, ans;
+	string s;
+	while (getline(exercises, s)) question.push_back(s);
+	while (getline(answer, s)) ans.push_back(s);
+	vector<ll>correct, wrong;
+	for (ll i = 0; i < (ll)question.size(); i++)
+	{
+		if (getAns(getTrue(question[i])) == getTrue(ans[i])) correct.push_back(i + 1);
+		else wrong.push_back(i + 1);
+	}
+	outputCheckAns(correct, wrong);
+	exercises.close();
+	answer.close();
 }
 
 int main(int argc, char* argv[])
@@ -248,11 +344,14 @@ int main(int argc, char* argv[])
 			questionNum = atoi(argv[2]);
 			maxRange = atoi(argv[4]);
 			generateQuestion();
+			cout << "Finish";
 		}
 		else if (string(argv[1]) == "-e" && string(argv[3]) == "-a")
 		{
 			exerciseFile = string(argv[2]);
 			answerFile = string(argv[4]);
+			checkAns();
+			cout << "Finish";
 		}
 	}
 	else
@@ -262,4 +361,5 @@ int main(int argc, char* argv[])
 	}
 }
 //cd C:\Users\26973\Desktop\Tools\C++ Code\SEPartnerProject\x64\Debug
-//SEPartnerProject.exe -n 10 -r 10
+//SEPartnerProject.exe -n 20 -r 10
+//SEPartnerProject.exe -e exercisefile.txt -a answerfile.txt
