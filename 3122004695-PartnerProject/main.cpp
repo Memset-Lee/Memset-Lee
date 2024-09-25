@@ -10,7 +10,7 @@
 using namespace std;
 
 ll questionNum = 100, maxRange = 100;//初始题目数量，初始自然数大小
-ll parenthesesProbability = 5;//括号概率
+ll parenthesesProbability = 5, denominatorRange = 100;//括号概率，分母范围
 string exerciseFile, answerFile;//题目文件，答案文件
 vector<string>allSymbol = { "+","-","*","/" };//运算符
 static mt19937_64 randomNumberGenerator(chrono::steady_clock::now().time_since_epoch().count());//随机数生成器
@@ -247,7 +247,7 @@ void generateQuestion()//生成问题
 		string question = "";
 		for (ll j = 0; j <= symbolNum; j++)
 		{
-			ll denominator = uniform_int_distribution<ll>(1, 100)(randomNumberGenerator);//分母
+			ll denominator = uniform_int_distribution<ll>(1, denominatorRange)(randomNumberGenerator);//分母
 			ll numerator = uniform_int_distribution<ll>(1, denominator * maxRange - 1)(randomNumberGenerator);//分子
 			string symbol = allSymbol[symbolRange(randomNumberGenerator)];//符号
 			string temp = getString({ numerator ,denominator });//化为正确形式
