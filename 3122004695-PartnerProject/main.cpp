@@ -9,7 +9,7 @@
 #define llf LLONG_MAX
 using namespace std;
 
-ll questionNum = 100, maxRange = 100;//初始题目数量，初始自然数大小
+ll questionNum = 100, maxRange = 100;//初始题目数量，初始自然数范围
 ll parenthesesProbability = 5, denominatorRange = 100;//括号概率，分母范围
 string exerciseFile, answerFile;//题目文件，答案文件
 vector<string>allSymbol = { "+","-","*","/" };//运算符
