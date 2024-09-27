@@ -353,6 +353,11 @@ int main(int argc, char* argv[])
 			checkAns();
 			cout << "Finish";
 		}
+		else
+		{
+			cout << "Input Error" << endl;
+			exit(0);
+		}
 	}
 	else
 	{
